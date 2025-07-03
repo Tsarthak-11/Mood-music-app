@@ -1,0 +1,567 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&family=Quicksand:wght@400;600&display=swap');
+
+body, html, #root {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Quicksand', Arial, sans-serif;
+  background: #1a0a16;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Top left pink/maroon blob */
+body::before {
+  content: '';
+  position: fixed;
+  left: -220px;
+  top: -220px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle at 30% 30%, #e85d8e 0%, #6b1e23 60%, transparent 100%);
+  filter: blur(90px);
+  opacity: 0.38;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Bottom right pink/maroon blob */
+body::after {
+  content: '';
+  position: fixed;
+  right: -220px;
+  bottom: -220px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle at 70% 70%, #e85d8e 0%, #6b1e23 60%, transparent 100%);
+  filter: blur(90px);
+  opacity: 0.38;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Abstract blurred shapes for extra depth */
+.bg-abstract {
+  position: fixed;
+  z-index: 1;
+  pointer-events: none;
+}
+.bg-circle1 {
+  top: 12vh;
+  left: 8vw;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, #e85d8e 0%, #6b1e23 80%, transparent 100%);
+  opacity: 0.18;
+  filter: blur(24px);
+  border-radius: 50%;
+  transform: rotate(-8deg);
+}
+.bg-circle2 {
+  bottom: 18vh;
+  right: 10vw;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, #6b1e23 0%, #e85d8e 100%);
+  opacity: 0.13;
+  filter: blur(18px);
+  border-radius: 50%;
+  transform: rotate(12deg);
+}
+.bg-line1 {
+  top: 30vh;
+  left: 0;
+  width: 320px;
+  height: 32px;
+  background: linear-gradient(90deg, rgba(232,93,142,0.12) 0%, rgba(107,30,35,0.08) 100%);
+  border-radius: 32px;
+  opacity: 0.12;
+  filter: blur(8px);
+  transform: rotate(-6deg);
+}
+.bg-line2 {
+  bottom: 10vh;
+  right: 0;
+  width: 260px;
+  height: 24px;
+  background: linear-gradient(90deg, rgba(107,30,35,0.10) 0%, rgba(232,93,142,0.10) 100%);
+  border-radius: 32px;
+  opacity: 0.10;
+  filter: blur(8px);
+  transform: rotate(8deg);
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  position: relative;
+}
+
+.App-header {
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  z-index: 3;
+}
+
+.App-title {
+  font-family: 'Nunito', 'Quicksand', Arial, sans-serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 16px rgba(232,93,142,0.12);
+}
+
+.App-subtitle {
+  font-size: 1.3rem;
+  color: #e85d8e;
+  margin-top: 0.5rem;
+  font-weight: 400;
+  text-shadow: 0 1px 8px rgba(232,93,142,0.12);
+}
+
+.container {
+  background: rgba(255,255,255,0.18);
+  box-shadow: 0 8px 32px 0 rgba(232,93,142,0.22), 0 1.5px 8px 0 rgba(255,255,255,0.10) inset;
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border-radius: 28px;
+  padding: 2.5rem 2rem 2rem 2rem;
+  margin-bottom: 2rem;
+  max-width: 1100px;
+  width: 95vw;
+  z-index: 4;
+  border: 1.5px solid rgba(255,255,255,0.28);
+  position: relative;
+  overflow: hidden;
+}
+
+video, canvas {
+  border-radius: 16px;
+  box-shadow: 0 4px 24px 0 rgba(232,93,142,0.08);
+}
+
+div[role='grid'] > div {
+  background: rgba(34, 18, 34, 0.92) !important;
+  box-shadow: 0 2px 16px 0 rgba(232,93,142,0.16) !important;
+  border-radius: 20px !important;
+  border: 2px solid;
+  border-image: linear-gradient(120deg, #e85d8e 0%, #6b1e23 100%) 1;
+  color: #fff !important;
+  transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+}
+div[role='grid'] > div:hover {
+  box-shadow: 0 8px 32px 0 rgba(232,93,142,0.22) !important;
+  transform: translateY(-4px) scale(1.04) !important;
+  border-color: #fff !important;
+}
+
+button, .App button, .container button {
+  background: linear-gradient(90deg, #e85d8e 0%, #6b1e23 100%);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 32px;
+  padding: 0.85rem 2.2rem;
+  font-size: 1.15rem;
+  margin-top: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px 0 rgba(232,93,142,0.08);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+button:hover, .App button:hover, .container button:hover {
+  background: linear-gradient(90deg, #6b1e23 0%, #e85d8e 100%);
+  color: #e85d8e;
+  box-shadow: 0 4px 16px 0 rgba(232,93,142,0.16);
+  transform: translateY(-2px) scale(1.04);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: rgba(232,93,142,0.04);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(232,93,142,0.12);
+  border-radius: 8px;
+}
+
+@media (max-width: 700px) {
+  .App-title {
+    font-size: 2rem;
+    padding: 0 0.5rem;
+  }
+  .App-subtitle {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+  }
+  .container {
+    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+    max-width: 98vw;
+    border-radius: 18px;
+  }
+  video, canvas {
+    width: 98vw !important;
+    max-width: 98vw !important;
+    height: auto !important;
+    border-radius: 12px;
+  }
+  div[role='grid'] {
+    grid-template-columns: 1fr !important;
+    max-width: 98vw;
+    gap: 1.5rem 0.5rem;
+  }
+  div[role='grid'] > div {
+    max-width: 98vw !important;
+    min-width: 0 !important;
+    padding: 0.7rem !important;
+  }
+  img, .SongImage {
+    width: 100% !important;
+    max-width: 100vw !important;
+    height: 120px !important;
+  }
+  iframe, .ResponsiveIframe {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 180px !important;
+    border-radius: 10px !important;
+  }
+  .SongTitle, .song-title {
+    font-size: 0.95rem !important;
+    max-width: 95vw !important;
+  }
+}
+
+.music-sticker {
+  position: fixed;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.32;
+  filter: blur(0.5px);
+  transition: opacity 0.2s;
+  box-shadow: 0 0 24px #e85d8e44;
+}
+.sticker-note {
+  top: 32px;
+  left: 32px;
+}
+.sticker-headphones {
+  bottom: 32px;
+  right: 32px;
+}
+.sticker-vinyl {
+  bottom: 40px;
+  left: 40px;
+}
+.sticker-waveform {
+  top: 36px;
+  right: 36px;
+}
+.sticker-note2 {
+  top: 120px;
+  left: 120px;
+  transform: rotate(-18deg);
+}
+.sticker-vinyl2 {
+  bottom: 120px;
+  left: 100px;
+  transform: rotate(12deg);
+}
+.sticker-mic {
+  top: 180px;
+  right: 80px;
+  transform: rotate(-10deg);
+}
+.sticker-guitar {
+  bottom: 100px;
+  right: 120px;
+  transform: rotate(8deg);
+}
+@media (max-width: 700px) {
+  .sticker-note {
+    top: 8px;
+    left: 8px;
+    width: 40px !important;
+    height: 40px !important;
+  }
+  .sticker-headphones {
+    bottom: 8px;
+    right: 8px;
+    width: 45px !important;
+    height: 30px !important;
+  }
+  .sticker-vinyl {
+    bottom: 12px;
+    left: 12px;
+    width: 35px !important;
+    height: 35px !important;
+  }
+  .sticker-waveform {
+    top: 10px;
+    right: 10px;
+    width: 45px !important;
+    height: 20px !important;
+  }
+  .sticker-note2 {
+    top: 60px;
+    left: 40px;
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .sticker-vinyl2 {
+    bottom: 60px;
+    left: 30px;
+    width: 25px !important;
+    height: 25px !important;
+  }
+  .sticker-mic {
+    top: 90px;
+    right: 30px;
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .sticker-guitar {
+    bottom: 40px;
+    right: 40px;
+    width: 35px !important;
+    height: 20px !important;
+  }
+}
+
+.bg-waves {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 320px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.95;
+}
+.bg-waves svg {
+  width: 100vw;
+  height: 320px;
+  display: block;
+}
+.wave1 {
+  animation: waveMove1 16s linear infinite alternate;
+}
+.wave2 {
+  animation: waveMove2 22s linear infinite alternate;
+}
+@keyframes waveMove1 {
+  0% { transform: translateX(0) scaleY(1); }
+  100% { transform: translateX(-40px) scaleY(1.04); }
+}
+@keyframes waveMove2 {
+  0% { transform: translateX(0) scaleY(1); }
+  100% { transform: translateX(40px) scaleY(0.98); }
+}
+@media (max-width: 700px) {
+  .bg-waves, .bg-waves svg {
+    height: 120px !important;
+    min-height: 80px;
+  }
+}
+
+.bg-wave-topleft {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 320px;
+  height: 120px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.95;
+}
+.bg-wave-topright {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 120px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.95;
+}
+@media (max-width: 700px) {
+  .bg-wave-topleft, .bg-wave-topright {
+    width: 120px !important;
+    height: 48px !important;
+  }
+}
+
+.bg-wave-topcenter {
+  position: fixed;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 120px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.95;
+}
+.bg-wave-topcenter svg {
+  width: 100vw;
+  height: 120px;
+  display: block;
+}
+@media (max-width: 700px) {
+  .bg-wave-topcenter, .bg-wave-topcenter svg {
+    height: 48px !important;
+    min-height: 32px;
+  }
+}
+
+/* Restore original .bg-sticker-corner properties */
+.bg-sticker-corner {
+  position: fixed;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.38;
+  filter: blur(0.2px);
+  transition: opacity 0.2s;
+}
+/* Only remove background and box-shadow, do not override other properties */
+.bg-sticker-corner,
+.bg-sticker-headphones2,
+.bg-sticker-waveform2 {
+  background: none !important;
+  box-shadow: none !important;
+}
+.bg-sticker-corner svg,
+.bg-sticker-headphones2 svg,
+.bg-sticker-waveform2 svg {
+  background: none !important;
+  fill: none !important;
+  box-shadow: none !important;
+}
+
+.bg-sticker-notecluster {
+  top: 130px;
+  left: 32px;
+  bottom: auto;
+  right: auto;
+  transform: none;
+}
+.bg-sticker-piano {
+  bottom: 180px;
+  left: calc(50% - 570px - 64px);
+  top: auto;
+  right: auto;
+  transform: none;
+}
+.bg-sticker-guitar {
+  position: absolute;
+  bottom: 48px;
+  right: 32px;
+  z-index: 3;
+  opacity: 0.92;
+  pointer-events: none;
+}
+@media (max-width: 1200px) {
+  .bg-sticker-piano {
+    left: 32px;
+    bottom: 120px;
+  }
+  .bg-sticker-guitar {
+    right: 32px;
+    bottom: 120px;
+  }
+}
+@media (max-width: 700px) {
+  .bg-sticker-corner {
+    width: 24px !important;
+    height: 24px !important;
+  }
+  .bg-sticker-notecluster {
+    top: 72px !important;
+    left: 6px !important;
+  }
+  .bg-sticker-piano {
+    bottom: 90px !important;
+    left: 6px !important;
+  }
+  .bg-sticker-guitar {
+    bottom: 90px !important;
+    right: 6px !important;
+  }
+}
+
+.bg-sticker-note2 {
+  position: fixed;
+  right: 24px;
+  top: 80px;
+  z-index: 1;
+  opacity: 0.22;
+  filter: blur(0.5px);
+  pointer-events: none;
+  box-shadow: 0 0 24px #e85d8e44;
+}
+.bg-sticker-vinyl2 {
+  position: fixed;
+  right: 24px;
+  bottom: 80px;
+  z-index: 1;
+  opacity: 0.18;
+  filter: blur(0.5px);
+  pointer-events: none;
+  box-shadow: 0 0 24px #e85d8e44;
+}
+.bg-sticker-headphones2 {
+  position: fixed;
+  top: 128px;
+  right: 32px;
+  z-index: 2;
+  opacity: 0.65;
+  filter: blur(0.2px);
+  pointer-events: none;
+  box-shadow: 0 0 24px #e85d8e44;
+}
+.bg-sticker-waveform2 {
+  position: fixed;
+  right: calc(50vw - 570px - 64px);
+  bottom: 180px;
+  z-index: 2;
+  opacity: 0.65;
+  filter: blur(0.2px);
+  pointer-events: none;
+  box-shadow: 0 0 24px #e85d8e44;
+}
+.bg-sticker-mic {
+  position: fixed;
+  right: 24px;
+  top: 180px;
+  z-index: 1;
+  opacity: 0.22;
+  filter: blur(0.5px);
+  pointer-events: none;
+  box-shadow: 0 0 24px #e85d8e44;
+}
+@media (max-width: 1200px) {
+  .bg-sticker-waveform2 {
+    right: 32px;
+    bottom: 120px;
+  }
+  .bg-sticker-headphones2 {
+    top: 72px;
+    right: 16px;
+  }
+}
+@media (max-width: 700px) {
+  .bg-sticker-note2, .bg-sticker-vinyl2, .bg-sticker-headphones2, .bg-sticker-waveform2, .bg-sticker-mic {
+    width: 28px !important;
+    height: 28px !important;
+    right: 8px !important;
+  }
+  .bg-sticker-note2 { right: 6px !important; top: 32px !important; }
+  .bg-sticker-vinyl2 { right: 6px !important; top: 38vh !important; }
+  .bg-sticker-headphones2 { top: 32px !important; }
+  .bg-sticker-waveform2 { bottom: 40px !important; right: 8px !important; }
+  .bg-sticker-mic { right: 6px !important; top: 80px !important; } 
+} 
