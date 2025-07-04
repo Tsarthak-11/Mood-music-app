@@ -35,16 +35,16 @@ function App() {
   }, [currentEmotion]);
 
   // Generate random stars for the background
-  const stars = Array.from({ length: 60 }).map((_, i) => (
-    <span
-      key={i}
-      style={{
-        left: `${Math.random() * 100}vw`,
-        top: `${Math.random() * 100}vh`,
-        animationDelay: `${Math.random() * 2}s`,
-      }}
-    />
-  ));
+  // const stars = Array.from({ length: 60 }).map((_, i) => (
+  //   <span
+  //     key={i}
+  //     style={{
+  //       left: `${Math.random() * 100}vw`,
+  //       top: `${Math.random() * 100}vh`,
+  //       animationDelay: `${Math.random() * 2}s`,
+  //     }}
+  //   />
+  // ));
 
   return (
     <div className="App">
