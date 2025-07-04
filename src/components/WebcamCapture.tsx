@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import * as faceapi from 'face-api.js';
+import * as faceapi from 'face-api.js/dist/face-api.min.js';
 
 const Container = styled.div`
   display: flex;
