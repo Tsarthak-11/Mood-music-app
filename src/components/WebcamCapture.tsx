@@ -141,8 +141,8 @@ const WebcamCapture: React.FC = () => {
         .withFaceExpressions();
       if (detections.length > 0) {
         const expressions = detections[0].expressions;
-        let dominantEmotion = Object.entries(expressions)
-          .reduce((a, b) => (a[1] > b[1] ? a : b))[0];
+        let dominantEmotion = (Object.entries(expressions) as [string, number][])
+          .reduce((a: [string, number], b: [string, number]) => (a[1] > b[1] ? a : b))[0];
         // Prefer sad or happy over neutral if both are present
         if (dominantEmotion === 'neutral') {
           if ('sad' in expressions) {
