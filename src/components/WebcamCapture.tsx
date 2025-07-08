@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import * as faceapi from 'face-api.js/dist/face-api.min.js';
+
+// @ts-ignore: faceapi is loaded globally via CDN
 
 const Container = styled.div`
   display: flex;
@@ -94,10 +95,23 @@ const WebcamCapture: React.FC = () => {
     const loadModels = async () => {
       try {
         setStatus('Loading face detection models...');
-        await faceapi.nets.tinyFaceDetector.loadFromUri('https://justadudewhohacks.github.io/face-api.js/models');
-        await faceapi.nets.faceLandmark68Net.loadFromUri('https://justadudewhohacks.github.io/face-api.js/models');
-        await faceapi.nets.faceRecognitionNet.loadFromUri('https://justadudewhohacks.github.io/face-api.js/models');
-        await faceapi.nets.faceExpressionNet.loadFromUri('https://justadudewhohacks.github.io/face-api.js/models');
+        // Wait until faceapi is available
+        if (!(window as any).faceapi) {
+          setStatus('Waiting for face-api.js to load...');
+          let tries = 0;
+          while (!(window as any).faceapi && tries < 50) {
+            await new Promise(res => setTimeout(res, 100));
+            tries++;
+          }
+        }
+        if (!(window as any).faceapi) {
+          setStatus('face-api.js failed to load.');
+          return;
+        }
+        await (window as any).faceapi.nets.tinyFaceDetector.loadFromUri('https://justadudewhohacks.github.io/face-api.js/models');
+        await (window as any).faceapi.nets.faceLandmark68Net.loadFromUri('https://justadudewhohacks.github.io/face-api.js/models');
+        await (window as any).faceapi.nets.faceRecognitionNet.loadFromUri('https://justadudewhohacks.github.io/face-api.js/models');
+        await (window as any).faceapi.nets.faceExpressionNet.loadFromUri('https://justadudewhohacks.github.io/face-api.js/models');
         setStatus('Models loaded successfully');
       } catch (error) {
         console.error('Error loading models:', error);
@@ -135,8 +149,8 @@ const WebcamCapture: React.FC = () => {
   const detectEmotions = async () => {
     if (!videoRef.current || !canvasRef.current) return;
     try {
-      const detections = await faceapi
-        .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions())
+      const detections = await (window as any).faceapi
+        .detectAllFaces(videoRef.current, new (window as any).faceapi.TinyFaceDetectorOptions())
         .withFaceLandmarks()
         .withFaceExpressions();
       if (detections.length > 0) {
@@ -154,11 +168,11 @@ const WebcamCapture: React.FC = () => {
         setLastDetectedEmotion(dominantEmotion);
         // Draw detections on canvas
         const displaySize = { width: 640, height: 480 };
-        faceapi.matchDimensions(canvasRef.current, displaySize);
-        const resizedDetections = faceapi.resizeResults(detections, displaySize);
+        (window as any).faceapi.matchDimensions(canvasRef.current, displaySize);
+        const resizedDetections = (window as any).faceapi.resizeResults(detections, displaySize);
         canvasRef.current.getContext('2d')?.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-        faceapi.draw.drawDetections(canvasRef.current, resizedDetections);
-        faceapi.draw.drawFaceExpressions(canvasRef.current, resizedDetections);
+        (window as any).faceapi.draw.drawDetections(canvasRef.current, resizedDetections);
+        (window as any).faceapi.draw.drawFaceExpressions(canvasRef.current, resizedDetections);
       }
     } catch (error) {
       console.error('Error detecting emotions:', error);
