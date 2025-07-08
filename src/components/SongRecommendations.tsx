@@ -50,10 +50,6 @@ const ShowMoreButton = styled.button`
   }
 `;
 
-interface EmotionEvent extends CustomEvent {
-  detail: string;
-}
-
 interface SongRecommendationsProps {
   currentEmotion: string;
 }
