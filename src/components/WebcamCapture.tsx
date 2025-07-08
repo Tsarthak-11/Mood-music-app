@@ -1,8 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
-
-// faceapi is loaded via CDN in public/index.html
-const faceapi: any = (window as any).faceapi;
+import * as faceapi from 'face-api.js/dist/face-api.min.js';
 
 const Container = styled.div`
   display: flex;
@@ -142,7 +140,7 @@ const WebcamCapture: React.FC = () => {
         .withFaceLandmarks()
         .withFaceExpressions();
       if (detections.length > 0) {
-        const expressions = detections[0].expressions as Record<string, number>;
+        const expressions = detections[0].expressions;
         let dominantEmotion = Object.entries(expressions)
           .reduce((a, b) => (a[1] > b[1] ? a : b))[0];
         // Prefer sad or happy over neutral if both are present
