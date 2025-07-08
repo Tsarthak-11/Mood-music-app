@@ -21,6 +21,7 @@ const SongGrid = styled.div`
     grid-template-columns: 1fr;
     max-width: 98vw;
     gap: 1.5rem 0.5rem;
+    justify-items: center;
   }
 `;
 
